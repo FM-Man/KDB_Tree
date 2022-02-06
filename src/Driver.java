@@ -9,5 +9,14 @@ public class Driver {
         kdb.insert(new int[]{14,2,8});
         kdb.insert(new int[]{11,7,10});
         kdb.insert(new int[]{0,-3,17});
+
+        kdb.print();
+
+        System.out.println();
+        System.out.println();
+        System.out.println();
+
+        kdb.search(new int[]{0,-3,17});
+        kdb.search(new int[]{5,5,5});
     }
 }

@@ -45,9 +45,59 @@ public class KDBTree {
             }
         }
 
+//        while (true){
+//            for (int a: node.coordinates) {
+//                System.out.print(a+" ");
+//            }
+//            if(node.parent != null){
+//                if(node.isLeftChild)
+//                    System.out.print("L -> ");
+//                else
+//                    System.out.print("R -> ");
+//
+//                node = node.parent;
+//            }
+//            else break;
+//        }
+//        System.out.println();
+    }
+
+    public void print(){
+        if(root == null) return;
+        System.out.print("[ ");
+        for (int x:root.coordinates) {
+            System.out.print(x+" ");
+        }
+        System.out.println("]");
+        print("----L: ", root.leftChild);
+        print("----R: ", root.rightChild);
+    }
+
+    public void print(String s, Node node){
+        if(node == null) return;
+        System.out.print(s+"[ ");
+        for (int x:node.coordinates) {
+          System.out.print(x+" ");
+        }
+        System.out.println("]");
+        print(s.substring(0,s.length()-3)+"----L: ", node.leftChild);
+        print(s.substring(0,s.length()-3)+"----R: ", node.rightChild);
+    }
+
+    private boolean match(int[] a, int[] b){
+        //boolean flag = false;
+        for (int i=0; i<a.length;i++) {
+            if(a[i] != b[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void printNodeLineage(Node node){
         while (true){
             for (int a: node.coordinates) {
-                System.out.print(a+",");
+                System.out.print(a+" ");
             }
             if(node.parent != null){
                 if(node.isLeftChild)
@@ -60,5 +110,37 @@ public class KDBTree {
             else break;
         }
         System.out.println();
+    }
+
+    public void search(int[] coordinates){
+        boolean flag = false;
+        int currentLevel = 0;
+        Node node = root;
+        while(true){
+            if(match(node.coordinates, coordinates)){
+                System.out.println("Node found");
+                printNodeLineage(node);
+                flag = true;
+                break;
+            }
+            else if(coordinates[currentLevel] < node.coordinates[currentLevel]){
+                if(node.leftChild != null){
+                    currentLevel = (currentLevel+1)%dimension;
+                    node = node.leftChild;
+                }
+                else
+                    break;
+            }
+            else {
+                if (node.rightChild != null){
+                    currentLevel = (currentLevel+1)%dimension;
+                    node = node.rightChild;
+                }
+                else
+                    break;
+            }
+        }
+        if(!flag)
+            System.out.println("Node Not found");
     }
 }
