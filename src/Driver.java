@@ -1,7 +1,7 @@
 public class Driver {
     public static void main(String[] args) {
         Node root=new Node(new int[]{10,5});
-        KDBTree kdb = new KDBTree(root, 2);
+        KDBTree kdb = new KDBTree(root, 2, 15);
         kdb.insert(new int[]{8,7});
         kdb.insert(new int[]{5,5});
         kdb.insert(new int[]{9,11});
