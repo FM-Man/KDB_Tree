@@ -104,13 +104,52 @@ public class KDBTree {
         if(!flag)
             System.out.println("Node Not found");
     }
+    private boolean match(int[] a, int[] b){
+        //boolean flag = false;
+        for (int i=0; i<a.length;i++) {
+            if(a[i] != b[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+    private void printNodeLineage(Node node){
+        while (true){
+            for (int a: node.coordinates) {
+                System.out.print(a+" ");
+            }
+            if(node.parent != null){
+                if(node.isLeftChild)
+                    System.out.print("L -> ");
+                else
+                    System.out.print("R -> ");
+
+                node = node.parent;
+            }
+            else break;
+        }
+        System.out.println();
+    }
+
+
     public void search(int[] leftBound, int[] rightBound){
         //Integer[] l = leftBound;
         ArrayList<int[]> correctedBound = correctRange(leftBound,rightBound);
         find(correctedBound.get(0),correctedBound.get(1),root,0);
     }
-
-
+    private ArrayList<int[]> correctRange(int[] left, int[] right){
+        for(int i=0; i<left.length;i++){
+            if(left[i] > right[i]){
+                int temp = left[i];
+                left[i] = right[i];
+                right[i] = temp;
+            }
+        }
+        ArrayList<int[]> ret = new ArrayList<>();
+        ret.add(left);
+        ret.add(right);
+        return ret;
+    }
     private void find(int[] leftBound, int[] rightBound, Node node, int currentLevel){
         if(node == null)
             return;
@@ -146,48 +185,6 @@ public class KDBTree {
         //recursion for the right child
         if(rightBound[currentLevel] > node.coordinates[currentLevel])
             find(leftBound,rightBound,node.rightChild,(currentLevel+1)%dimension);
-    }
-
-    private boolean match(int[] a, int[] b){
-        //boolean flag = false;
-        for (int i=0; i<a.length;i++) {
-            if(a[i] != b[i]){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void printNodeLineage(Node node){
-        while (true){
-            for (int a: node.coordinates) {
-                System.out.print(a+" ");
-            }
-            if(node.parent != null){
-                if(node.isLeftChild)
-                    System.out.print("L -> ");
-                else
-                    System.out.print("R -> ");
-
-                node = node.parent;
-            }
-            else break;
-        }
-        System.out.println();
-    }
-
-    private ArrayList<int[]> correctRange(int[] left, int[] right){
-        for(int i=0; i<left.length;i++){
-            if(left[i] > right[i]){
-                int temp = left[i];
-                left[i] = right[i];
-                right[i] = temp;
-            }
-        }
-        ArrayList<int[]> ret = new ArrayList<>();
-        ret.add(left);
-        ret.add(right);
-        return ret;
     }
 
 }
